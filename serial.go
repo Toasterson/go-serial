@@ -24,6 +24,10 @@ type Port interface {
 	// Returns the number of bytes written.
 	Write(p []byte) (n int, err error)
 
+	// Send break signal to the serial port.
+	// Returns an error if something in the syscall call failed
+	SendBreak() error
+
 	// ResetInputBuffer Purges port read buffer
 	ResetInputBuffer() error
 

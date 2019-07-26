@@ -115,6 +115,10 @@ func (port *windowsPort) Write(p []byte) (int, error) {
 	return int(writed), err
 }
 
+func (port *windowsPort) SendBreak() error {
+	panic("Not Implemented")
+}
+
 const (
 	purgeRxAbort uint32 = 0x0002
 	purgeRxClear        = 0x0008

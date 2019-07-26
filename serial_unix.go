@@ -15,6 +15,7 @@ import (
 	"sync"
 	"unsafe"
 
+	"github.com/pkg/term/termios"
 	"golang.org/x/sys/unix"
 
 	"go.bug.st/serial.v1/unixutils"
@@ -50,6 +51,15 @@ func (port *unixPort) Close() error {
 		}
 	}
 	return nil
+}
+
+func (port *unixPort) SendBreak() error {
+	port.closeLock.RLock()
+	defer port.closeLock.RUnlock()
+	if !port.opened {
+		return &PortError{code: PortClosed}
+	}
+	return termios.Tcsendbreak(uintptr(port.handle), 0)
 }
 
 func (port *unixPort) Read(p []byte) (n int, err error) {
